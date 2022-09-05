@@ -1,0 +1,10 @@
+Missives to the Future - Specification
+
+User can enter their name and a missive
+User can read a random missive
+
+Each missive will contain:
+Time stamp
+Location
+Name of writer
+Missive
