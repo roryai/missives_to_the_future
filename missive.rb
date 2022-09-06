@@ -1,6 +1,9 @@
 class Missive
-  def initialize(name, content)
+
+  attr_reader :name, :message
+
+  def initialize(name, message)
     @name = name
-    @content = content
+    @message = message
   end
 end
