@@ -6,4 +6,8 @@ class Missive
     @name = name
     @message = message
   end
+
+  def prepare_for_printing
+    [name, message]
+  end
 end
