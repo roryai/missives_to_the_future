@@ -8,3 +8,21 @@ Time stamp
 Location
 Name of writer
 Missive
+
+Take user input from terminal in tests
+postgres storage
+display all previous entries by same user when reading out
+how to set keyboard shortcuts to terminal functions?
+
+different message types? journal, warning, prophecy
+
+
+Restrictions and error handling
+
+Can't leave name blank
+Can't leave message blank
+
+
+How to prevent
+User exiting program
+User fucking it up
