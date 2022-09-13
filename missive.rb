@@ -13,26 +13,34 @@ class Missive
   end
 
   def prepare_for_printing
-    [prep_time, prep_location, prep_name, prep_gathering, prep_message]
+    [prep_time, prep_location, prep_name, prep_gathering, ["MISSIVE CONTENTS:" + spacing("MISSIVE CONTENTS"), 0.1], prep_message]
   end
 
   def prep_location
-    ["Scribing location: " + location, 0.02]
+    pretext = "SCRIBING LOCATION:"
+    [pretext + spacing(pretext) + location, 0.02]
   end
 
   def prep_gathering
-    ["Gathering: " + gathering, 0.06]
+    pretext = "GATHERING:"
+    [pretext + spacing(pretext) + gathering, 0.06]
   end
 
   def prep_time
-    ["Scribing time: " + creation_time.to_s, 0.04]
+    pretext = "SCRIBING TIME:"
+    [pretext + spacing(pretext) + creation_time.to_s, 0.04]
   end
 
   def prep_name
-    ["Scribe: " + name, 0.1]
+    pretext = "SCRIBE:"
+    [pretext + spacing(pretext) + name, 0.07]
   end
 
   def prep_message
-    ["Missive contents:\n" + message, 0.02]
+    [message, 0.02]
+  end
+
+  def spacing(pretext)
+    " " * (20 - pretext.length)
   end
 end
