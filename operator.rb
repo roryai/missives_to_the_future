@@ -14,7 +14,7 @@ class Operator
 
   def read_or_write
     puts
-    puts "Do you want to read a missive, or write one?\n[r] to read, [w] to write:"
+    puts "Do you want to read a missive, or write one?\n[r] to read, [w] to write"
     puts
     command = gets.chomp
     puts
@@ -28,21 +28,32 @@ class Operator
     when "w"
       basic_input
     else
-      "Command not recognised.\n[[r] to read, [w] to write\ Input command again:"
+      puts "Command not recognised.\nInput command again:\n[r] to read, [w] to write"
       command = gets.chomp
       read_or_write_handler(command)
     end
   end
 
   def display_missive
-    @missive_storage << Missive.new("Rory", "1337", "This is a test missive. Print me slowly. Or quickly. Quickly probably better to be honest, you have already made people wait in anticipation with the slow roll above.")
+    # @missive_storage << Missive.new("Rory", "1337", "This is a test missive. Print me slowly. Or quickly. Quickly probably better to be honest, you have already made people wait in anticipation with the slow roll above.")
 
     selected_missive = @missive_storage.shuffle.first
 
     parts = selected_missive.prepare_for_printing
+
+    display_hash_line
+
     parts.each {|part| print_text(part[0], part[1])}
 
+    display_hash_line
+
     read_or_write
+  end
+
+  def display_hash_line
+    terminal_columns_count = IO.console.winsize[1]
+    (terminal_columns_count -1).times { print "#"}
+    puts
   end
 
   def basic_input
@@ -58,7 +69,7 @@ class Operator
     puts
     @missive_message = gets.chomp
     puts
-    puts "Are you ready to submit your missive?\n[s] to submit, [d] to delete and start again."
+    puts "Are you ready to submit your missive?\n[s] to submit, [d] to delete and start again"
     submission_command = gets.chomp
     submission_handler(submission_command)
   end
@@ -100,6 +111,7 @@ class Operator
 
     terminal_columns_count = IO.console.winsize[1]
 
+
     if text.length >= terminal_columns_count
       print text
     else
@@ -110,7 +122,6 @@ class Operator
       end
     end
 
-    puts
     puts
   end
 end
