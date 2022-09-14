@@ -16,6 +16,8 @@ class Missive
     [prep_time, prep_location, prep_name, prep_gathering, ["MISSIVE CONTENTS:" + spacing("MISSIVE CONTENTS"), 0.1], prep_message]
   end
 
+  private
+
   def prep_location
     pretext = "SCRIBING LOCATION:"
     [pretext + spacing(pretext) + location, 0.02]
