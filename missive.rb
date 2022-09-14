@@ -1,19 +1,42 @@
+require 'mongo'
+
 class Missive
+  Mongo::Logger.logger.level = ::Logger::FATAL
 
-  attr_reader :location, :gathering, :creation_time, :name, :message
+  client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'testdb')
 
-  def initialize(name, temporal_identifier, message)
+  attr_reader :name, :temporal_identifier, :message, :location, :gathering, :creation_time
+
+  def initialize(name, temporal_identifier, message, creation_time=Time.now)
     @name = name
     @temporal_identifier = temporal_identifier
     @message = message
     @location = "Laniakea Supercluster, Virgo Cluster, Local Group, Milky Way, Earth, Cymru"
     @gathering = "Microburn 2022 (CE)"
-    @creation_time = Time.now
-
+    @creation_time = creation_time
   end
 
   def prepare_for_printing
     [prep_time, prep_location, prep_name, prep_gathering, ["MISSIVE CONTENTS:" + spacing("MISSIVE CONTENTS"), 0.1], prep_message]
+  end
+
+  def insert
+    client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'testdb')
+    client[:missives]
+    .insert_one(
+      { name: @name,
+        temporal_identifier: @temporal_identifier,
+        message: @message,
+        location: @location,
+        gathering: @gathering,
+        creation_time: @creation_time
+      })
+  end
+
+  def read
+    client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'testdb')
+    binding.pry
+    client[:missives].find({})
   end
 
   private
