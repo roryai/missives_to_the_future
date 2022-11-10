@@ -1,18 +1,19 @@
 require 'mongo'
+require 'sqlite3'
 
 class Missive
   Mongo::Logger.logger.level = ::Logger::FATAL
 
-  client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'testdb')
+  db = SQLite3::Database.new "missive_archive.db"
 
   attr_reader :name, :temporal_identifier, :message, :location, :gathering, :creation_time
 
-  def initialize(name, temporal_identifier, message, creation_time=Time.now)
+  def initialize(name, temporal_identifier, message, creation_time=Time.now.to_s)
     @name = name
     @temporal_identifier = temporal_identifier
     @message = message
-    @location = "Laniakea Supercluster, Virgo Cluster, Local Group, Milky Way, Earth, Cymru"
-    @gathering = "Microburn 2022 (CE)"
+    @location = "Laniakea Supercluster, Virgo Cluster, Local Group, Milky Way, Earth, London, Fire"
+    @gathering = "Decom 2022 (CE)"
     @creation_time = creation_time
   end
 
@@ -21,19 +22,12 @@ class Missive
   end
 
   def insert
-    client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'testdb')
-    client[:missives]
-    .insert_one(
-      { name: @name,
-        temporal_identifier: @temporal_identifier,
-        message: @message,
-        location: @location,
-        gathering: @gathering,
-        creation_time: @creation_time
-      })
+    db = SQLite3::Database.new "missive_archive.db"
+    db.execute("INSERT INTO missives (name, temporal_identifier, message, location, gathering, creation_time) VALUES (?, ?, ?, ?, ?, ?)",
+                [name, temporal_identifier, message, location, gathering, creation_time])
   end
 
-  def read
+  def read # TODO usused, delete
     client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'testdb')
     binding.pry
     client[:missives].find({})

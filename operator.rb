@@ -1,6 +1,7 @@
-require "./missive.rb"
+require './missive.rb'
 require 'pry'
 require 'io/console'
+require 'sqlite3'
 
 # if you have come to this file to nose around in my messy code then you've done so without my permission or consent. not cool.
 
@@ -10,13 +11,34 @@ require 'io/console'
 
 class Operator
   def run
-    Missive.new("Test 1", "1234", "test message 1").insert
-    Missive.new("Test 2", "1255", "test message 2").insert
-    Missive.new("Test 3", "1266", "test message 2").insert
+    initiate_database
     read_or_write
   end
 
+  # def read # dev test method
+  #   display_missive
+  # end
+  #
+  # def write # dev test method
+  #   basic_input
+  # end
+
   private
+
+  def initiate_database
+    db = SQLite3::Database.new "missive_archive.db"
+
+    db.execute <<-SQL
+      create table if not exists missives (
+        name varchar,
+        temporal_identifier varchar(4),
+        message varchar,
+        location varchar,
+        gathering varchar,
+        creation_time varchar
+      );
+    SQL
+  end
 
   def read_or_write
     puts
@@ -57,15 +79,10 @@ class Operator
   end
 
   def display_missive
-    client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'testdb')
-    selected_missive_record = client[:missives].find({}).to_a.shuffle.first
+    db = SQLite3::Database.new "missive_archive.db"
+    record = db.execute( "select * from missives" ).shuffle.first
 
-    selected_missive = Missive.new(
-      selected_missive_record[:name],
-      selected_missive_record[:temporal_identifier],
-      selected_missive_record[:message],
-      selected_missive_record[:creation_time]
-    )
+    selected_missive = Missive.new(record[0], record[1], record[2], record[5])
 
     parts = selected_missive.prepare_for_printing
     puts `clear`
