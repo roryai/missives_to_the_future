@@ -9,11 +9,6 @@ require 'io/console'
 # if the program has stopped running and you're here to help out then please navigate to the directory containing this file and run `ruby operator.rb`
 
 class Operator
-
-  def initialize
-    @missive_storage = []
-  end
-
   def run
     Missive.new("Test 1", "1234", "test message 1").insert
     Missive.new("Test 2", "1255", "test message 2").insert
@@ -73,6 +68,7 @@ class Operator
     )
 
     parts = selected_missive.prepare_for_printing
+    puts `clear`
 
     display_hash_line
 
@@ -95,11 +91,7 @@ class Operator
     input_prefix
     @name = gets.chomp
     puts
-    puts "#{command_prefix}Enter a temporal identifier for yourself in the form of 4 digits e.g. '0806'.\n  Your missives to be linked across time, as long as you use the same name and temporal identifier.\n  WARNING: do not share your temporal identifier as this may lead to impersonation."
-    puts
-    input_prefix
-    @temporal_identifier = gets.chomp
-    puts
+    temporal_identifier_input
     puts "#{command_prefix}Enter the missive you would like to send to the future.\n  Hit enter when you have finished.\n  WARNING: once you have hit enter you cannot edit your missive, you can only save it or discard it."
     puts
     input_prefix
@@ -109,6 +101,22 @@ class Operator
     input_prefix
     submission_command = gets.chomp
     submission_handler(submission_command)
+  end
+
+  def temporal_identifier_input
+    puts "#{command_prefix}Enter a temporal identifier for yourself in the form of 4 digits e.g. '0806'.\n  Your missives to be linked across time, as long as you use the same name and temporal identifier."
+    puts
+    input_prefix
+    @temporal_identifier = gets.chomp
+    if !four_digits(@temporal_identifier)
+      puts "! Temporal identifier must cosist of exactly 4 digits, try again."
+      temporal_identifier_input
+    end
+    puts
+  end
+
+  def four_digits(string)
+    /\b\d{4}\b/.match?(string)
   end
 
   def submission_handler(command)
