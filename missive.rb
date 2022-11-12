@@ -28,7 +28,7 @@ class Missive
 
   def prep_location
     pretext = "SCRIBING LOCATION:"
-    [pretext + spacing(pretext) + location, 0.02]
+    [pretext + spacing(pretext) + location, 0.01]
   end
 
   def prep_gathering
@@ -38,12 +38,12 @@ class Missive
 
   def prep_time
     pretext = "SCRIBING TIME:"
-    [pretext + spacing(pretext) + creation_time.to_s, 0.04]
+    [pretext + spacing(pretext) + creation_time.to_s, 0.01]
   end
 
   def prep_name
     pretext = "SCRIBE:"
-    [pretext + spacing(pretext) + name, 0.07]
+    [pretext + spacing(pretext) + name, 0.08]
   end
 
   def prep_message
