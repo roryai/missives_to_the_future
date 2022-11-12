@@ -10,8 +10,15 @@ require 'sqlite3'
 # if the program has stopped running and you're here to help out then please navigate to the directory containing this file and run `ruby operator.rb`
 
 class Operator
+
+  attr_reader :db
+
+  def initialize
+    @db = SQLite3::Database.new "missive_archive.db"
+  end
+
   def run
-    initiate_database
+    create_table
     read_or_write
   end
 
@@ -25,9 +32,7 @@ class Operator
 
   private
 
-  def initiate_database
-    db = SQLite3::Database.new "missive_archive.db"
-
+  def create_table
     db.execute <<-SQL
       create table if not exists missives (
         name varchar,
@@ -79,7 +84,7 @@ class Operator
   end
 
   def display_missive
-    db = SQLite3::Database.new "missive_archive.db"
+    # db = SQLite3::Database.new "missive_archive.db"
     record = db.execute( "select * from missives" ).shuffle.first
 
     selected_missive = Missive.new(record[0], record[1], record[2], record[5])
