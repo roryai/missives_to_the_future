@@ -39,8 +39,6 @@ class Operator
 
   def read_or_write
     puts
-    puts "#{command_prefix}Press enter to continue"
-    gets
     puts "#{command_prefix}This is a time machine that allows you to send messages to people in the future."
     puts "#{command_prefix}Would you like to read a missive, write a missive, or learn more about this time machine?" + sandwich_input_info("[r] to read, [w] to write, [i] for info")
     input_prefix
@@ -115,7 +113,7 @@ class Operator
     input_prefix
     @missive_message = gets.chomp
     puts
-    puts "#{command_prefix}Are you ready to submit your missive?" + sandwich_input_info("[s] to submit, [d] to delete and start again")
+    puts "#{command_prefix}Are you ready to submit your missive?" + sandwich_input_info("[s] to submit, [d] to delete and start again, [q] to return to menu")
     input_prefix
     submission_command = gets.chomp
     submission_handler(submission_command)
@@ -146,6 +144,8 @@ class Operator
     when 'd'
       puts
       basic_input
+    when 'q'
+      read_or_write
     else
       puts "#{command_prefix}Command not recognised." + sandwich_input_info("[s] to submit, [d] to delete and start again\ Input command again:")
       input_prefix
