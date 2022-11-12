@@ -21,14 +21,6 @@ class Operator
     create_table
     read_or_write
   end
-  #
-  # def read # dev test method
-  #   display_missive
-  # end
-  #
-  # def write # dev test method
-  #   basic_input
-  # end
 
   private
 
@@ -89,7 +81,6 @@ class Operator
   end
 
   def display_missive
-    # db = SQLite3::Database.new "missive_archive.db"
     record = db.execute( "select * from missives" ).shuffle.first
 
     selected_missive = Missive.new(record[0], record[1], record[2], record[5])
