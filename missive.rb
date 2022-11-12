@@ -2,9 +2,6 @@ require 'mongo'
 require 'sqlite3'
 
 class Missive
-  Mongo::Logger.logger.level = ::Logger::FATAL
-
-  db = SQLite3::Database.new "missive_archive.db"
 
   attr_reader :name, :temporal_identifier, :message, :location, :gathering, :creation_time
 
@@ -13,7 +10,7 @@ class Missive
     @temporal_identifier = temporal_identifier
     @message = message
     @location = "Laniakea Supercluster, Virgo Cluster, Local Group, Milky Way, Earth, London, Fire"
-    @gathering = "Decom 2022 (CE)"
+    @gathering = "Decompression 2022 (CE)"
     @creation_time = creation_time
   end
 
@@ -25,12 +22,6 @@ class Missive
     db = SQLite3::Database.new "missive_archive.db"
     db.execute("INSERT INTO missives (name, temporal_identifier, message, location, gathering, creation_time) VALUES (?, ?, ?, ?, ?, ?)",
                 [name, temporal_identifier, message, location, gathering, creation_time])
-  end
-
-  def read # TODO usused, delete
-    client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'testdb')
-    binding.pry
-    client[:missives].find({})
   end
 
   private
