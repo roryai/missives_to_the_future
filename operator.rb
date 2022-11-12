@@ -3,7 +3,7 @@ require 'pry'
 require 'io/console'
 require 'sqlite3'
 
-# if you have come to this file to nose around in my messy code then you've done so without my permission or consent. not cool.
+# if you have come to this file to nose around in my code then you've done so without my permission or consent. not cool.
 
 # return to the terminal and return it to full screen with the program running
 
@@ -21,7 +21,7 @@ class Operator
     create_table
     read_or_write
   end
-
+  #
   # def read # dev test method
   #   display_missive
   # end
@@ -47,7 +47,10 @@ class Operator
 
   def read_or_write
     puts
-    puts "#{command_prefix}Read a missive, or write a missive?" + sandwich_input_info("[r] to read, [w] to write")
+    puts "#{command_prefix}Press enter to continue"
+    gets
+    puts "#{command_prefix}This is a time machine that allows you to send messages to people in the future."
+    puts "#{command_prefix}Would you like to read a missive, write a missive, or learn more about this time machine?" + sandwich_input_info("[r] to read, [w] to write, [i] for info")
     input_prefix
     command = gets.chomp
     puts
@@ -60,6 +63,8 @@ class Operator
       display_missive
     when "w"
       basic_input
+    when "i"
+      display_info
     else
       puts "#{command_prefix}Command not recognised. Input command again." + sandwich_input_info("[r] to read, [w] to write")
       input_prefix
@@ -131,7 +136,7 @@ class Operator
     input_prefix
     @temporal_identifier = gets.chomp
     if !four_digits(@temporal_identifier)
-      puts "! Temporal identifier must cosist of exactly 4 digits, try again."
+      puts "! Temporal identifier must consist of exactly 4 digits, try again."
       temporal_identifier_input
     end
     puts
@@ -183,6 +188,15 @@ class Operator
     end
 
     puts
+  end
+
+  def display_info
+    puts `clear`
+    display_hash_line
+    puts "This time machine was found in an air pocket aboard the lost wreck of the Mary Celeste, inside the captain's cabin.\n\nWhilst it has the appearance of a computer monitor manufactured in the early twenty-first century, it is infact much older, and is made from exotic materials not found on Earth.\n\nMany of these compounds cannot be identified using CT scans, mass spectrometers, or any of a range of other advanced imaging techniques.\n\nAs far as we can tell the machine presents no threat, as the functions seem to be limited to sending messages to the future and reading these messages.\n\nOf course, we cannot verify who else is able to read the messages, and an artefact as powerful as this one could have other capabilites as yet unexplored.\n\n\nThe makers of the artifact are unknown."
+    puts
+    display_hash_line
+    read_or_write
   end
 end
 
