@@ -83,7 +83,7 @@ class Operator
   def display_missive
     record = db.execute( "select * from missives" ).shuffle.first
 
-    selected_missive = Missive.new(record[0], record[1], record[2], record[5])
+    selected_missive = Missive.new(record[0], record[1], record[2], record[3], record[4], record[5])
 
     parts = selected_missive.prepare_for_printing
     puts `clear`
@@ -158,7 +158,7 @@ class Operator
   end
 
   def create_new_missive(name, temporal_identifier, missive_message)
-    Missive.new(name, temporal_identifier, missive_message).insert
+    Missive.new(name, temporal_identifier, missive_message, "Laniakea Supercluster, Virgo Cluster, Local Group, Milky Way, Earth, London, Fire", "Decompression 2022 (CE)").insert
   end
 
   def print_text(text, print_rate)
@@ -166,7 +166,6 @@ class Operator
     recombined_chars = []
 
     terminal_columns_count = IO.console.winsize[1]
-
 
     if text.length >= terminal_columns_count
       print text
@@ -184,7 +183,7 @@ class Operator
   def display_info
     puts `clear`
     display_hash_line
-    puts "This time machine was found in an air pocket aboard the lost wreck of the Mary Celeste, inside the captain's cabin.\n\nWhilst it has the appearance of a computer monitor manufactured in the early twenty-first century, it is infact much older, and is made from exotic materials not found on Earth.\n\nMany of these compounds cannot be identified using CT scans, mass spectrometers, or any of a range of other advanced imaging techniques.\n\nAs far as we can tell the machine presents no threat, as the functions seem to be limited to sending messages to the future and reading these messages.\n\nOf course, we cannot verify who else is able to read the messages, and an artefact as powerful as this one could have other capabilites as yet unexplored.\n\n\nThe makers of the artifact are unknown."
+    puts "This time machine was found in an air pocket aboard the lost wreck of the Mary Celeste, inside the captain's cabin.\n\nWhilst it has the appearance of a computer monitor manufactured in the early twenty-first century, it is in fact much older, and is made from exotic materials not found on Earth.\n\nMany of these compounds cannot be identified using CT scans, mass spectrometers, or any of a range of other advanced imaging techniques.\n\nAs far as we can tell, the machine presents no threat. The functions seem to be limited to sending messages to the future and reading these messages.\n\nOf course, we cannot verify who else is able to read the messages, and an artefact as powerful as this one could have other capabilites as yet unexplored.\n\n\nThe makers of the artifact are unknown."
     puts
     display_hash_line
     read_or_write

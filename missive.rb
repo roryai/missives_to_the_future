@@ -5,12 +5,12 @@ class Missive
 
   attr_reader :name, :temporal_identifier, :message, :location, :gathering, :creation_time
 
-  def initialize(name, temporal_identifier, message, creation_time=Time.now.to_s)
+  def initialize(name, temporal_identifier, message, location, gathering, creation_time=Time.now.to_s)
     @name = name
     @temporal_identifier = temporal_identifier
     @message = message
-    @location = "Laniakea Supercluster, Virgo Cluster, Local Group, Milky Way, Earth, London, Fire"
-    @gathering = "Decompression 2022 (CE)"
+    @location = location
+    @gathering = gathering
     @creation_time = creation_time
   end
 
@@ -33,7 +33,7 @@ class Missive
 
   def prep_gathering
     pretext = "GATHERING:"
-    [pretext + spacing(pretext) + gathering, 0.06]
+    [pretext + spacing(pretext) + gathering, 0.04]
   end
 
   def prep_time
